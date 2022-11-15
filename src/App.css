@@ -1,0 +1,133 @@
+.App {
+  text-align: center;
+  margin: 10px;
+  padding: 10px;
+}
+.cta {
+  width: 150px;
+  display: flex;
+  justify-content: space-between;
+  background: #FFF8DC;
+  padding: 5px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.form-section {
+  max-width: 900px;
+  margin: auto;
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 5px;
+  margin-top: 50px;
+  justify-content: space-evenly;
+}
+@media (max-width: 800px) {
+  .form-section {
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+  }
+}
+
+.from-input {
+  margin: 5px;
+  display: flex;
+  font-size: 18px;
+  padding: 5px 8px;
+  max-width: 210px;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.table{
+  width: 950px;
+  margin: 100px auto;
+  text-align: center;
+  background-color: rgb(3, 2, 2);
+  padding: 10px;
+  width: 100%;
+  /* overflow-x: hidden; */
+  /* border-collapse: collapse;
+    border-spacing: 0;
+    width: 100%;
+    border: 1px solid #ddd; */
+}
+
+
+.table-head-tr{
+  border: 1px solid gray; 
+  text-transform: capitalize;
+  color: gray;
+}
+.table-head-tr th{
+  padding: 10px;
+  font-size: 20px;
+  font-weight: 700;
+  text-align: start;
+  position: relative;
+}
+.table-heading-icon{
+  position: absolute;
+}
+
+.table-body-tr {
+  color: #fff;
+}
+.table-body-tr td {
+  font-size: 15px;
+  font-weight: 500;
+  padding: 5px 0px;
+  text-align: start;
+}
+.table-body-tr:nth-child(odd) {
+  border-bottom: 1px solid gray;
+}
+
+
+/* footer/  pagination sections */
+.footer{
+  margin: auto;
+  display: flex;
+  justify-content: space-between;
+}
+.page-select{
+  display: flex;
+  position: relative;
+  /* background-color: brown; */
+}
+.page-select span{
+  display: flex;
+ justify-content: center;
+ align-items: center;
+}
+.page-select select{
+  position: relative;
+  border: none;
+}
+.page-select option{
+  position: absolute;
+  top: -5px;
+}
+
+.page-no{
+  display: flex;
+  font-size: 18px;
+  
+}
+.page-no span{
+  border: 1px solid gray;
+  border-radius: 5px;
+  display: flex;
+  justify-content: space-around;
+
+}
+.highlite{
+  font-size: 20px;
+  background-color: rgb(136, 136, 245);
+}
+
+
