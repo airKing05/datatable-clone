@@ -114,15 +114,15 @@ export default function Main() {
   function transformFormDataToJson(formData, idToChange) {
     return {
       id: idToChange || Math.random(),
-        name, 
-        email, 
-        company: {
-          name: company,
-        },
-        address: {
-          city,
-          zipcode,
-        }
+      name,
+      email,
+      company: {
+        name: company,
+      },
+      address: {
+        city,
+        zipcode,
+      }
     }
   }
 
@@ -132,39 +132,43 @@ export default function Main() {
       let otherData = user.filter((item) => item.id != idToChange);
       let editedData = [...otherData, transformFormDataToJson(formData, idToChange)];
       setUser(editedData);
-    }else{
-      const userDataToSet = [...user, transformFormDataToJson(formData)]
-      setUser(userDataToSet)
+      setFormData(" ")
     }
-   // console.log("from data",)
+    const userDataToSet = [...user, transformFormDataToJson(formData)]
+    setUser(userDataToSet)
+    // if(idToChange<-1) {
+     
+    // }
+   
+    // console.log("from data",)
   };
 
 
   // input form
 
   //handel showInputForm
-  function showForm(){
+  function showForm() {
     setShowInputFrom(!showInputForm)
   }
   //handel showInputForm
 
 
   // update user
-function updateUser(){
-  showForm()
-  const dataTochange = user.filter((item) => item.id == idToChange);
-  const defaultFormData = {
-    name: dataTochange[0].name,
-    email: dataTochange[0].email,
-    company: dataTochange[0].company.name,
-    city: dataTochange[0].address.city,
-    zipcode: dataTochange[0].address.zipcode
-  };
+  function updateUser() {
+    showForm()
+    const dataTochange = user.filter((item) => item.id == idToChange);
+    const defaultFormData = {
+      name: dataTochange[0].name,
+      email: dataTochange[0].email,
+      company: dataTochange[0].company.name,
+      city: dataTochange[0].address.city,
+      zipcode: dataTochange[0].address.zipcode
+    };
 
-  setFormData(defaultFormData);
+    setFormData(defaultFormData);
 
-  console.log(dataTochange ,defaultFormData);
-}
+    console.log(dataTochange, defaultFormData);
+  }
   // update user
 
 
@@ -172,7 +176,7 @@ function updateUser(){
 
   function deleteListItem() {
     //console.log(idToChange);
-    const remainingData = user.filter((item, index) => item.id !=idToChange);
+    const remainingData = user.filter((item, index) => item.id != idToChange);
     setUser(remainingData)
     //console.log("reamoanf", remainingData)
   }
@@ -190,7 +194,7 @@ function updateUser(){
       return 0;
     })]);
   }
-// sorting section
+  // sorting section
 
 
 
@@ -217,14 +221,14 @@ function updateUser(){
       setCurrentPage(1)
     }
   }
- // handling paginantion
+  // handling paginantion
 
 
 
   return (
     <>
 
-{/* CTA SECTION */}
+      {/* CTA SECTION */}
       <div className='btn-container'>
         <div className='cta'>
           <div>
@@ -242,7 +246,7 @@ function updateUser(){
 
         </div>
       </div>
-{/* CTA SECTION */}
+      {/* CTA SECTION */}
 
 
 
@@ -259,7 +263,7 @@ function updateUser(){
 
         </div> : null
       }
-      
+
       {/* FORM SECTION */}
 
 
@@ -267,44 +271,44 @@ function updateUser(){
 
       {/* TABLE SECTION */}
 
-      <div style={{'overflowX': 'auto'}}>
-      <table className='table'>
-        <TableHead header={header} onSorting={(field, order) => {
+      <div style={{ 'overflowX': 'auto' }}>
+        <table className='table'>
+          <TableHead header={header} onSorting={(field, order) => {
             setSorting(field, order);
             sortTableData(field, order);
           }} />
-        {/* <TableBody content={user} setIdToChange = {setIdToChange}/> */}
+          {/* <TableBody content={user} setIdToChange = {setIdToChange}/> */}
 
-        <tbody >
-          {
+          <tbody >
+            {
               visibleUserPerPage && visibleUserPerPage.map((item, idx) => {
-              return <tr key={idx} className='table-body-tr'>
-                <td><input type="radio" value={item.id} onChange={(e) => {
-                  setIdToChange(e.target.value);
-                }
-                } /></td>
-                <td className=''>{item.id} </td>
-                <td>{item.name}</td>
-                <td>{item.email}</td>
-                <td>{item.company.name}</td>
-                <td>{item.address.city}</td>
-                <td>{item.address.zipcode}</td>
-              </tr>
-            })
-          }
-        </tbody>
-      </table>
+                return <tr key={idx} className='table-body-tr'>
+                  <td><input type="radio" value={item.id} onChange={(e) => {
+                    setIdToChange(e.target.value);
+                  }
+                  } /></td>
+                  <td className=''>{item.id} </td>
+                  <td>{item.name}</td>
+                  <td>{item.email}</td>
+                  <td>{item.company.name}</td>
+                  <td>{item.address.city}</td>
+                  <td>{item.address.zipcode}</td>
+                </tr>
+              })
+            }
+          </tbody>
+        </table>
       </div>
 
       {/* TABLE SECTION */}
-    
+
 
 
       {/* PAGINATION SECTION */}
       <div className='footer'>
 
         <div role="button" className='page-no'>
-          <span onClick={prevFunc}><UilAngleLeftB/></span>
+          <span onClick={prevFunc}><UilAngleLeftB /></span>
           {
             pages && pages.map(page =>
               <span
@@ -312,20 +316,21 @@ function updateUser(){
                 onClick={() => setCurrentPage(page)}
                 className={currentPage === page ? "highlite" : ""}
               >&nbsp; {page} &nbsp;</span>)}
-          <span onClick={nextFunc}><UilAngleRightB/></span>
+          <span onClick={nextFunc}><UilAngleRightB /></span>
         </div>
 
-          <div className='page-select'>
+        <div className='page-select'>
           <span className=''>Show  &nbsp;</span>
-            <select onChange={(e) => {
-              setUserPerPage(e.target.value)}}>
-              <option value="10">5</option>
-              <option value="20">10</option>
-              <option value="30">30</option>
-              <option value="50">50</option>
-            </select>
+          <select onChange={(e) => {
+            setUserPerPage(e.target.value)
+          }}>
+            <option value="10">5</option>
+            <option value="20">10</option>
+            <option value="30">30</option>
+            <option value="50">50</option>
+          </select>
           <span className=''>Entries &nbsp;</span>
-          </div>
+        </div>
 
       </div>
       {/* PAGINATION SECTION */}
