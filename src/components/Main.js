@@ -157,12 +157,13 @@ export default function Main() {
   function updateUser() {
     showForm()
     const dataTochange = user.filter((item) => item.id == idToChange);
+    console.log(user);
     const defaultFormData = {
       name: dataTochange[0].name,
       email: dataTochange[0].email,
       company: dataTochange[0].company.name,
       city: dataTochange[0].address.city,
-      zipcode: dataTochange[0].address.zipcode
+      zipcode: parseInt(dataTochange[0].address.zipcode)
     };
 
     setFormData(defaultFormData);
