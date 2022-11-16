@@ -151,12 +151,14 @@ export default function Main() {
       let otherData = user.filter((item) => item.id != idToChange);
       let editedData = [...otherData, transformFormUpdatedDataToJson(idToChange)];
       setUser(editedData);
-      setFormData(" ")
+      setFormData(" ");
+     
     }
     if (idToChange == null){
       const userDataToSet = [...user, transformFormDataToJson(formData)]
       setUser(userDataToSet)
       setFormData(" ")
+     
     }
     
     // if(idToChange<-1) {
