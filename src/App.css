@@ -4,14 +4,17 @@
   padding: 10px;
 }
 .cta {
-  width: 150px;
+  max-width: 150px;
   display: flex;
   justify-content: space-between;
-  background: #FFF8DC;
+  background: rgb(62, 61, 61);
   padding: 5px;
-  border-radius: 5px;
+  border-radius: 15px;
   cursor: pointer;
   margin-top: 100px;
+}
+.cta-btn :hover{
+background: rgb(174, 172, 172);
 }
 
 .form-section {
@@ -71,6 +74,9 @@ input::-webkit-inner-spin-button {
   text-align: start;
   position: relative;
 }
+.table-head-tr:hover {
+  background-color: rgb(62, 61, 61);
+}
 .table-heading-icon{
   position: absolute;
 }
@@ -83,6 +89,9 @@ input::-webkit-inner-spin-button {
   font-weight: 500;
   padding: 5px 0px;
   text-align: start;
+}
+.table-body-tr:hover {
+  background-color: rgb(62, 61, 61);
 }
 .table-body-tr:nth-child(odd) {
   border-bottom: 1px solid gray;

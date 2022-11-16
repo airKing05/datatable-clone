@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import FormInput from './FormInput'
-import TableBody from './TableBody'
 import TableHead from './TableHead'
 import { UilPlus, UilEdit, UilTrashAlt, UilMinus, UilAngleLeftB, UilAngleRightB } from '@iconscout/react-unicons'
 
@@ -46,6 +45,7 @@ export default function Main() {
   const [sorting, setSorting] = useState({ field: '', order: '' });
 
   const [showInputForm, setShowInputFrom] = useState(false);
+  //const [ctashow, setCtaShow] = useState(false);
 
 
   const [userPerPage, setUserPerPage] = useState(5);
@@ -92,7 +92,7 @@ export default function Main() {
       name: "city",
       value: city,
       type: "text",
-      placeHolder: "Enter Company"
+      placeHolder: "Enter City"
     },
     {
       name: "zipcode",
@@ -111,9 +111,9 @@ export default function Main() {
   }
 
 
-  function transformFormDataToJson(formData, idToChange) {
+  function transformFormDataToJson() {
     return {
-      id: idToChange || Math.random(),
+      id: Math.random(),
       name,
       email,
       company: {
@@ -126,16 +126,39 @@ export default function Main() {
     }
   }
 
+  function transformFormUpdatedDataToJson(idToChange){
+    if(idToChange){
+      return {
+        id: idToChange || Math.random(),
+        name,
+        email,
+        company: {
+          name: company,
+        },
+        address: {
+          city,
+          zipcode,
+        }
+      }
+    }
+    return;
+    
+  }
+
   function addData() {
     if (idToChange) {
-      console.log(idToChange)
+      //console.log(idToChange)
       let otherData = user.filter((item) => item.id != idToChange);
-      let editedData = [...otherData, transformFormDataToJson(formData, idToChange)];
+      let editedData = [...otherData, transformFormUpdatedDataToJson(idToChange)];
       setUser(editedData);
       setFormData(" ")
     }
-    const userDataToSet = [...user, transformFormDataToJson(formData)]
-    setUser(userDataToSet)
+    if (idToChange == null){
+      const userDataToSet = [...user, transformFormDataToJson(formData)]
+      setUser(userDataToSet)
+      setFormData(" ")
+    }
+    
     // if(idToChange<-1) {
      
     // }
@@ -157,7 +180,7 @@ export default function Main() {
   function updateUser() {
     showForm()
     const dataTochange = user.filter((item) => item.id == idToChange);
-    console.log(user);
+    //console.log(user);
     const defaultFormData = {
       name: dataTochange[0].name,
       email: dataTochange[0].email,
@@ -237,12 +260,16 @@ export default function Main() {
           </div>
           <div>
             <span
+            className='cta-btn'
               onClick={showForm}
-            ><UilPlus /> </span>
+            ><UilPlus  /> </span>
             <span
+              className='cta-btn'
               onClick={() => updateUser()}
             ><UilEdit /></span>
-            <span onClick={deleteListItem}><UilTrashAlt /></span>
+            <span 
+              className='cta-btn'
+            onClick={deleteListItem}><UilTrashAlt /></span>
           </div>
 
         </div>
@@ -278,7 +305,6 @@ export default function Main() {
             setSorting(field, order);
             sortTableData(field, order);
           }} />
-          {/* <TableBody content={user} setIdToChange = {setIdToChange}/> */}
 
           <tbody >
             {
@@ -287,7 +313,8 @@ export default function Main() {
                   <td><input type="radio" value={item.id} onChange={(e) => {
                     setIdToChange(e.target.value);
                   }
-                  } /></td>
+                  } /> &nbsp;</td>
+                 
                   <td className=''>{item.id} </td>
                   <td>{item.name}</td>
                   <td>{item.email}</td>
