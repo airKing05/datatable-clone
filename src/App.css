@@ -1,21 +1,92 @@
+*{
+  margin: 0;
+  padding: 0;
+}
+
 .App {
   text-align: center;
-  margin: 10px;
-  padding: 10px;
+}
+.navbar{
+  background-color: rgb(34 34 34);
+  display: flex;
+  justify-content: space-between;
+  padding: 20px 50px;
+  align-items: center;
+  border: none;
+  /* box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px; */
+}
+.navbar h3{
+font-size: 20px;
+color: #fff;
+}
+.navbar span{
+  font-size: 20px;
+  color: rgb(91, 91, 91);
+}
+.main-container{
+  padding: 30px 50px;
+  background: rgb(10 10 10);
+}
+.selection-container{
+  margin-top: 50px;
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
 }
 .cta {
-  max-width: 150px;
+  width: 150px;
   display: flex;
   justify-content: space-between;
   background: rgb(62, 61, 61);
   padding: 5px;
   border-radius: 15px;
   cursor: pointer;
-  margin-top: 100px;
 }
-.cta-btn :hover{
-background: rgb(174, 172, 172);
+
+.cta-btn :hover {
+  background: rgb(84, 164, 239);
+  border-radius: 5px;
 }
+
+.cta-btn:active {
+  background: rgb(84, 164, 239);
+}
+.show-section{
+  width: 300px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.no-select{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: gray;
+}
+.row-select{
+  color: #fff;
+  width: 100%;
+  padding: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid black;
+  background-color: rgb(34 34 34);
+  border-radius: 15px;
+}
+@media (max-width: 600px) {
+  .show-section {
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+  }
+      .row-select {
+     width: 50%;
+     margin: auto;
+    }
+}
+
 
 .form-section {
   max-width: 900px;
@@ -40,6 +111,10 @@ background: rgb(174, 172, 172);
   font-size: 18px;
   padding: 5px 8px;
   max-width: 210px;
+  background-color: transparent;
+  border: 1px solid gray;
+  color: gray;
+  border-radius: 5px;
 }
 
 input::-webkit-outer-spin-button,
@@ -51,7 +126,7 @@ input::-webkit-inner-spin-button {
   width: 950px;
   margin: 100px auto;
   text-align: center;
-  background-color: rgb(3, 2, 2);
+  /* background-color: rgb(3, 2, 2); */
   padding: 10px;
   width: 100%;
   /* overflow-x: hidden; */
@@ -63,7 +138,7 @@ input::-webkit-inner-spin-button {
 
 
 .table-head-tr{
-  border: 1px solid gray; 
+  border: 1px solid gray;
   text-transform: capitalize;
   color: gray;
 }
@@ -87,8 +162,9 @@ input::-webkit-inner-spin-button {
 .table-body-tr td {
   font-size: 15px;
   font-weight: 500;
-  padding: 5px 0px;
+  padding: 10px 0px;
   text-align: start;
+  border-bottom: 2px solid rgb(56, 56, 56);
 }
 .table-body-tr:hover {
   background-color: rgb(62, 61, 61);
@@ -110,6 +186,7 @@ input::-webkit-inner-spin-button {
   /* background-color: brown; */
 }
 .page-select span{
+  color: gray;
   display: flex;
  justify-content: center;
  align-items: center;
@@ -117,19 +194,28 @@ input::-webkit-inner-spin-button {
 .page-select select{
   position: relative;
   border: none;
+  background-color: rgb(10 10 10);
+  color: #fff;
+}
+.page-select select:focus {
+  outline: none;
+    box-shadow: none;
+  border: none;
 }
 .page-select option{
   position: absolute;
+  color: #fff;
   top: -5px;
 }
 
 .page-no{
   display: flex;
   font-size: 18px;
-  
+
 }
 .page-no span{
   border: 1px solid gray;
+  color: #fff;
   border-radius: 5px;
   display: flex;
   justify-content: space-around;
@@ -137,7 +223,8 @@ input::-webkit-inner-spin-button {
 }
 .highlite{
   font-size: 20px;
-  background-color: rgb(136, 136, 245);
+  background: rgb(84, 164, 239);
+  color: black;
 }
 
 

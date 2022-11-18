@@ -7,8 +7,9 @@ export default function FormInput(props) {
                 type={type}
                 placeholder={placeHolder}
                 name={name}
-                defaultValue={value}
+                value={value}
                 onChange={props.onChange}
+                required
             />
         </div>
     );

@@ -38,12 +38,14 @@ const defaultFormData = {
   city: '',
   zipcode: ''
 };
+
+
 export default function Main() {
   const [formData, setFormData] = useState(defaultFormData);
   const [user, setUser] = useState([]);
   const [idToChange, setIdToChange] = useState(null);
   const [sorting, setSorting] = useState({ field: '', order: '' });
-
+  // const [fromInputAttribute, setFormInputAttribute] = useState([]);
   const [showInputForm, setShowInputFrom] = useState(false);
   //const [ctashow, setCtaShow] = useState(false);
 
@@ -51,6 +53,19 @@ export default function Main() {
   const [userPerPage, setUserPerPage] = useState(5);
   const [currentPage, setCurrentPage] = useState(1);
 
+  const [isChecked, setIsChecked] = useState(false);
+  const [checkedItemId, setCheckedItemId] = useState(null);
+
+  const [checkedStatus, setCheckedStaus] = useState(new Array(user.length).fill(false));
+
+
+  useEffect(() => {
+    console.log('woooho');
+    return () => {
+      console.log('second');
+    }
+  }, [formData]);
+  
 
   function getUserData() {
     fetch(url)
@@ -62,58 +77,71 @@ export default function Main() {
       .catch(err => console.log("ERROR", err))
 
   }
+
+ const formDataAttributes = [
+      {
+        name: "name",
+        value: formData.name,
+        type: "text",
+        placeHolder: "Enter Name"
+      },
+      {
+        name: "email",
+        value: formData.email,
+        type: "email",
+        placeHolder: "Enter Email"
+      },
+      {
+        name: "company",
+        value: formData.company,
+        type: "text",
+        placeHolder: "Enter Company"
+      },
+      {
+        name: "city",
+        value: formData.city,
+        type: "text",
+        placeHolder: "Enter City"
+      },
+      {
+        name: "zipcode",
+        value: formData.zipcode,
+        type: "number",
+        placeHolder: "Enter zipcode"
+      }
+    ];
+
+
   useEffect(() => {
-    getUserData()
-  }, [])
+    getUserData();
+  }, []);
+
+  const { name, email, company, city, zipcode } = formData;
+
 
   // handling this CTA 
   // input form
-  const { name, email, company, city, zipcode } = formData;
-  const fromInputAttribute = [
-    {
-      name: "name",
-      value: name,
-      type: "text",
-      placeHolder: "Enter Name"
-    },
-    {
-      name: "email",
-      value: email,
-      type: "email",
-      placeHolder: "Enter Email"
-    },
-    {
-      name: "company",
-      value: company,
-      type: "text",
-      placeHolder: "Enter Company"
-    },
-    {
-      name: "city",
-      value: city,
-      type: "text",
-      placeHolder: "Enter City"
-    },
-    {
-      name: "zipcode",
-      value: zipcode,
-      type: "number",
-      placeHolder: "Enter zipcode"
-    }
-  ];
 
-  function handleInput(e) {
+
+  
+
+
+  function handleFormDataChange(e) {
     const { name, value } = e.target;
+    console.log("target", name, value);
     //console.log("name:",name, "value:",value)
     if (value !== "") {
-      setFormData({ ...formData, [name]: value, id: Math.random() });
+      const data = { ...formData, [name]: value, id: Math.random() };
+      setFormData(data);
+      // updateFormAttribute(formData);
+      // setFormData({ ...formData, [name]: value, id: Math.random() });
     }
   }
 
 
   function transformFormDataToJson() {
     return {
-      id: Math.random(),
+      id: Math.random()*10,
       name,
       email,
       company: {
@@ -124,6 +152,17 @@ export default function Main() {
         zipcode,
       }
     }
+  }
+
+  function resetFormData() {
+   
+    setFormData({
+      name: '',
+      email: '',
+      company: '',
+      city: '',
+      zipcode: ''
+    });
   }
 
   function transformFormUpdatedDataToJson(idToChange){
@@ -145,27 +184,26 @@ export default function Main() {
     
   }
 
-  function addData() {
-    if (idToChange) {
-      //console.log(idToChange)
-      let otherData = user.filter((item) => item.id != idToChange);
-      let editedData = [...otherData, transformFormUpdatedDataToJson(idToChange)];
+  function addData(e) {
+    e.preventDefault();
+    if (checkedItemId) {
+      let otherData = user.filter((item) => item.id != checkedItemId);
+      let editedData = [...otherData, transformFormUpdatedDataToJson(checkedItemId)];
       setUser(editedData);
-      setFormData(" ");
+      resetFormData();
+      setCheckedItemId(null);
+      showInputForm(false);
+      //setFormData(defaultFormData)
+      return;
+     
      
     }
-    if (idToChange == null){
+    if (checkedItemId == null){
       const userDataToSet = [...user, transformFormDataToJson(formData)]
-      setUser(userDataToSet)
-      setFormData(" ")
-     
+      setUser(userDataToSet)  
+      //setFormData(defaultFormData)  
+      resetFormData();
     }
-    
-    // if(idToChange<-1) {
-     
-    // }
-   
-    // console.log("from data",)
   };
 
 
@@ -180,8 +218,8 @@ export default function Main() {
 
   // update user
   function updateUser() {
-    showForm()
-    const dataTochange = user.filter((item) => item.id == idToChange);
+    showForm(!showInputForm);
+    const dataTochange = user.filter((item) => item.id == checkedItemId);
     //console.log(user);
     const defaultFormData = {
       name: dataTochange[0].name,
@@ -192,8 +230,11 @@ export default function Main() {
     };
 
     setFormData(defaultFormData);
+    console.log(defaultFormData);
+    // updateFormAttribute(defaultFormData);
 
-    console.log(dataTochange, defaultFormData);
+
+   
   }
   // update user
 
@@ -201,18 +242,26 @@ export default function Main() {
   // handel delete user
 
   function deleteListItem() {
-    //console.log(idToChange);
-    const remainingData = user.filter((item, index) => item.id != idToChange);
+    const remainingData = user.filter((item, index) => item.id != checkedItemId);
     setUser(remainingData)
-    //console.log("reamoanf", remainingData)
+   
   }
   // handel delete user
   // handling this CTA 
 
+
+
+  // handling the checkbox
+  function handleChecked(id){
+    setCheckedItemId(id);  
+  }
+  // handling the checkbox
+
+
+
+
   // sorting section
   const sortTableData = (sortedField, sortingOrder) => {
-    console.log(user);
-    console.log("sasas", sortedField, sortingOrder);
     setUser([...user.sort((a, b) => {
       const multiplier = sortingOrder === "asc" ? 1 : -1;
       if (a[sortedField] < b[sortedField]) return -1 * multiplier;
@@ -252,10 +301,10 @@ export default function Main() {
 
 
   return (
-    <>
+    <div className='main-container'>
 
       {/* CTA SECTION */}
-      <div className='btn-container'>
+      <div className='selection-container'>
         <div className='cta'>
           <div>
             <UilMinus />
@@ -275,29 +324,29 @@ export default function Main() {
           </div>
 
         </div>
+        <div className='show-section'>
+          <span className='no-select'>Showing{firstIndexOfUser + 1}-{visibleUserPerPage.length}of {user.length}</span>
+          <span className='row-select'>1 row selected</span>
+        </div>
       </div>
       {/* CTA SECTION */}
 
 
-
+    
       {/* FORM SECTION */}
       {
-        showInputForm ? <div className='form-section'>
+        showInputForm ? <form className='form-section' onSubmit={addData} action="" method="POST">
+          <input className="from-input"  name="name" type="text" placeholder="Enter Name" value={formData.name} onChange={handleFormDataChange} required />
+          <input className="from-input" name='email' type="email"  placeholder="Enter Email" value={formData.email} onChange={handleFormDataChange} required />
+          <input className="from-input" name="company" type="text" placeholder="Enter Company" value={formData.company} onChange={handleFormDataChange} required />
+          <input className="from-input" name="city" type="text" placeholder="Enter City" value={formData.city} onChange={handleFormDataChange} required />
+          <input className="from-input" name="zipcode" type="number" placeholder="Enter Zipcode" value={formData.zipcode} onChange={handleFormDataChange} required />
+          <input type='submit' className='from-input'/>
 
-          {fromInputAttribute.map((data, index) => {
-            return (
-              <FormInput key={index} attribute={data} onChange={handleInput} />
-            );
-          })}
-          <button className='from-input' onClick={addData}>Add</button>
-
-        </div> : null
+        </form> : null
       }
 
       {/* FORM SECTION */}
-
-
-
 
       {/* TABLE SECTION */}
 
@@ -312,8 +361,10 @@ export default function Main() {
             {
               visibleUserPerPage && visibleUserPerPage.map((item, idx) => {
                 return <tr key={idx} className='table-body-tr'>
-                  <td><input type="radio" value={item.id} onChange={(e) => {
-                    setIdToChange(e.target.value);
+                  <td><input type="checkbox" value={item.id} 
+                    checked={item.id == checkedItemId}
+                  onChange={(e) => {
+                   handleChecked(e.target.value)
                   }
                   } /> &nbsp;</td>
                  
@@ -339,6 +390,7 @@ export default function Main() {
 
         <div role="button" className='page-no'>
           <span onClick={prevFunc}><UilAngleLeftB /></span>
+          &nbsp;
           {
             pages && pages.map(page =>
               <span
@@ -346,6 +398,7 @@ export default function Main() {
                 onClick={() => setCurrentPage(page)}
                 className={currentPage === page ? "highlite" : ""}
               >&nbsp; {page} &nbsp;</span>)}
+          &nbsp;
           <span onClick={nextFunc}><UilAngleRightB /></span>
         </div>
 
@@ -359,13 +412,13 @@ export default function Main() {
             <option value="30">30</option>
             <option value="50">50</option>
           </select>
-          <span className=''>Entries &nbsp;</span>
+          <span className=''> &nbsp; Entries &nbsp;</span>
         </div>
 
       </div>
       {/* PAGINATION SECTION */}
 
-    </>
+    </div>
   )
 }
 
