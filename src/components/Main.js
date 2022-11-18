@@ -174,7 +174,7 @@ export default function Main() {
       setUser(editedData);
       resetFormData();
       setCheckedItemId(null);
-      showInputForm(false);
+      setShowInputFrom(!showInputForm)
       //setFormData(defaultFormData)
       return;
      
@@ -186,6 +186,7 @@ export default function Main() {
       //setFormData(defaultFormData)  
       resetFormData();
     }
+    setShowInputFrom(!showInputForm)
   };
 
 
@@ -389,7 +390,7 @@ export default function Main() {
           <select onChange={(e) => {
             setUserPerPage(e.target.value)
           }}>
-            <option value="10">5</option>
+            <option value="5">5</option>
             <option value="10">10</option>
             <option value="20">30</option>
             <option value="50">50</option>
