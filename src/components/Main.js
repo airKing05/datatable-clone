@@ -41,31 +41,21 @@ const defaultFormData = {
 
 
 export default function Main() {
-  const [formData, setFormData] = useState(defaultFormData);
+
   const [user, setUser] = useState([]);
-  const [idToChange, setIdToChange] = useState(null);
   const [sorting, setSorting] = useState({ field: '', order: '' });
-  // const [fromInputAttribute, setFormInputAttribute] = useState([]);
+
+  const [formData, setFormData] = useState(defaultFormData);
   const [showInputForm, setShowInputFrom] = useState(false);
-  //const [ctashow, setCtaShow] = useState(false);
-
-
+  
   const [userPerPage, setUserPerPage] = useState(5);
   const [currentPage, setCurrentPage] = useState(1);
 
-  const [isChecked, setIsChecked] = useState(false);
   const [checkedItemId, setCheckedItemId] = useState(null);
-
-  const [checkedStatus, setCheckedStaus] = useState(new Array(user.length).fill(false));
-
-
-  useEffect(() => {
-    console.log('woooho');
-    return () => {
-      console.log('second');
-    }
-  }, [formData]);
   
+
+
+
 
   function getUserData() {
     fetch(url)
@@ -78,38 +68,38 @@ export default function Main() {
 
   }
 
- const formDataAttributes = [
-      {
-        name: "name",
-        value: formData.name,
-        type: "text",
-        placeHolder: "Enter Name"
-      },
-      {
-        name: "email",
-        value: formData.email,
-        type: "email",
-        placeHolder: "Enter Email"
-      },
-      {
-        name: "company",
-        value: formData.company,
-        type: "text",
-        placeHolder: "Enter Company"
-      },
-      {
-        name: "city",
-        value: formData.city,
-        type: "text",
-        placeHolder: "Enter City"
-      },
-      {
-        name: "zipcode",
-        value: formData.zipcode,
-        type: "number",
-        placeHolder: "Enter zipcode"
-      }
-    ];
+//  const formDataAttributes = [
+//       {
+//         name: "name",
+//         value: formData.name,
+//         type: "text",
+//         placeHolder: "Enter Name"
+//       },
+//       {
+//         name: "email",
+//         value: formData.email,
+//         type: "email",
+//         placeHolder: "Enter Email"
+//       },
+//       {
+//         name: "company",
+//         value: formData.company,
+//         type: "text",
+//         placeHolder: "Enter Company"
+//       },
+//       {
+//         name: "city",
+//         value: formData.city,
+//         type: "text",
+//         placeHolder: "Enter City"
+//       },
+//       {
+//         name: "zipcode",
+//         value: formData.zipcode,
+//         type: "number",
+//         placeHolder: "Enter zipcode"
+//       }
+//     ];
 
 
   useEffect(() => {
@@ -121,27 +111,30 @@ export default function Main() {
 
   // handling this CTA 
   // input form
-
-
-  
-
-
   function handleFormDataChange(e) {
     const { name, value } = e.target;
     console.log("target", name, value);
     //console.log("name:",name, "value:",value)
     if (value !== "") {
-      const data = { ...formData, [name]: value, id: Math.random() };
+      const data = { ...formData, [name]: value, id: Date.now() };
       setFormData(data);
       // updateFormAttribute(formData);
       // setFormData({ ...formData, [name]: value, id: Math.random() });
     }
   }
 
-
+  function resetFormData() {
+    setFormData({
+      name: '',
+      email: '',
+      company: '',
+      city: '',
+      zipcode: ''
+    });
+  }
   function transformFormDataToJson() {
     return {
-      id: Math.random()*10,
+      id: Date.now(),
       name,
       email,
       company: {
@@ -154,21 +147,10 @@ export default function Main() {
     }
   }
 
-  function resetFormData() {
-   
-    setFormData({
-      name: '',
-      email: '',
-      company: '',
-      city: '',
-      zipcode: ''
-    });
-  }
-
   function transformFormUpdatedDataToJson(idToChange){
     if(idToChange){
       return {
-        id: idToChange || Math.random(),
+        id: idToChange || Date.now(),
         name,
         email,
         company: {
@@ -325,7 +307,7 @@ export default function Main() {
 
         </div>
         <div className='show-section'>
-          <span className='no-select'>Showing{firstIndexOfUser + 1}-{visibleUserPerPage.length}of {user.length}</span>
+          <span className='no-select'>Showing {firstIndexOfUser + 1}-{(firstIndexOfUser + userPerPage)+1 > user.length+1 ? user.length : (firstIndexOfUser + userPerPage)} of {user.length}</span>
           <span className='row-select'>1 row selected</span>
         </div>
       </div>
@@ -408,8 +390,8 @@ export default function Main() {
             setUserPerPage(e.target.value)
           }}>
             <option value="10">5</option>
-            <option value="20">10</option>
-            <option value="30">30</option>
+            <option value="10">10</option>
+            <option value="20">30</option>
             <option value="50">50</option>
           </select>
           <span className=''> &nbsp; Entries &nbsp;</span>
